@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="carrinho_de_compras.css">
+    <title>Carrinhodecompras</title>
+</head>
+<body>
+
+    <h1>Carrinho de compras</h1>
+
+    <div class="conteiner">
+
+        <button class="seta-esquerda controle" aria-label="next img"></button>
+        <button class="seta-direita controle" aria-label="next img"></button>
+        <div class="gallery-wrapper">
+            <div class="gallery">
+                <img src="img/Coldplay.jpg" alt="oldplay" class="item item-atual">
+                <img src="img/gorilazz.jpg" alt="Gorillaz" class="item">
+                <img src="img/laurenjauregui.jpg" alt="LaurenJ" class="item">
+                <img src="img/demi lovato.jpg" alt="Demiloavto" class="item">
+                <img src="img/camila.png" alt="CamilaC" class="item">
+                <img src="img/Rosalia.png" alt="Rosalia" class="item">
+
+            </div>
+        </div>
+    </div>
+
+    <form id="Itens">
+        <select name="Show" id="swp">
+
+            <option value="selecioneS" id="sw">Selecione um show</option>
+            <option value="Coldplay" id="sw">Coldplay</option>
+            <option value="Gorillaz" id="sw">Gorillaz</option>
+            <option value="Lauren Jauregui" id="sw">Lauren Jauregui</option>
+            <option value="Demi Lovato" id="sw">Demi Lovato</option>
+            <option value="Camila Cabello">Camila Cabello</option>
+            <option value="Rosalia">Rosalia</option>
+
+        </select>
+        <select name="data" id="data">
+
+            <option value="erro">Escolha uma data</option>
+            <option value="21/10 ás 22:00"> 21/10 ás 22:00</option>
+            <option value="22/10 ás 22:00"> 22/10 ás 22:00</option>
+            <option value="23/10 ás 22:00"> 23/10 ás 22:00</option>
+            <option value="24/10 ás 22:00"> 24/10 ás 22:00</option>
+
+        </select>
+        <select name="Tipo do Ingresso" id="tc">
+            <option value="erro">Escolha o tipo de Ingresso</option>
+            <option value="Meia-entrada">Meia-entrada: R$200,00</option>
+            <option value="Inteira">Inteira: R$400,00</option>
+        </select>
+        <select name="quantidade" id="quant">
+            <option value="erro">Quantidade de Ingressos</option>
+            <option value="1" id="q1">1</option>
+            <option value="2" id="q2">2</option>
+            <option value="3" id="q3">3</option>
+        </select>
+
+        <input type="submit" id="btnadd" value="Adicionar ao carrinho">
+        
+    </form>
+
+    <div class="btn-ver-carrinho">
+    <button id="btn-ver-carrinho">Ver Carrinho</button>
+    </div>
+
+    <br><br>
+
+    <table id="Carrinho">
+
+        <thead>
+
+            <tr>
+                <th>Show</th>
+                <th>Tipo do Ingresso</th>
+                <th>Ingresos</th>
+                <th>data do show</th>
+                <th>Valor</th>
+                <th>Ações</th>
+
+            </tr>
+        </thead>
+
+        <tbody>
+
+        </tbody>
+
+    </table>
+
+    <div class="ps">
+    <button id="ps">Prosseguir</button>
+    </div>
+
+    <script>
+
+        const itens = document.getElementById("Itens");
+        const tabela = document.getElementById("Carrinho");
+        const btnVerCarrinho = document.getElementById("btn-ver-carrinho");
+        const Prosseguir = document.getElementById("ps");
+        let carrinho = [];
+        let VF
+
+        itens.addEventListener("submit", function (event){
+            event.preventDefault();
+
+            const show = document.getElementById("swp").value;
+            const TipoDoIngresso = document.getElementById("tc").value;
+            const Ingresos = document.getElementById("quant").value;
+            const data = document.getElementById("data").value;
+            let VT = "";
+
+            if (TipoDoIngresso == "Meia-entrada"){
+                VT = 200 * Ingresos
+            };
+            if(TipoDoIngresso == "Inteira"){
+                VT = 400 * Ingresos
+            };
+
+            const Item = {show, TipoDoIngresso, Ingresos, data, VT};
+
+            carrinho.push(Item);
+            alert("Item adicionado ao carrinho");
+
+            itens.reset();
+        });
+
+        btnVerCarrinho.addEventListener("click", function (){
+
+            if (carrinho.length === 0) {
+                alert("Seu carrinho está vazio");
+                return;
+
+            }
+
+            tabela.querySelector("tbody").innerHTML = "";
+
+            carrinho.forEach(function(Item){
+                const tr = document.createElement("tr");
+                tr.innerHTML = ` 
+                <td>${Item.show}</td>
+                <td>${Item.TipoDoIngresso}</td>
+                <td>${Item.Ingresos}</td> 
+                <td>${Item.data}</td>
+                <td>R$${Item.VT}</td> 
+                <td><button id="btnremov">Remover do carrinho</button></td>
+                `;
+                
+                tr.querySelector("button").addEventListener("click", function(){
+
+                    const index = carrinho.indexOf(Item);
+                    carrinho.splice(index, 1);
+                    tabela.removeChild(tr);
+
+                });
+
+                tabela.querySelector("tbody").appendChild(tr);
+            });
+
+            tabela.style.display = "table";
+        });
+
+        ps.addEventListener("click", function(pss){
+            alert("O total da sua compra é: R$" + VF)
+
+        });
+        const controles = document.querySelectorAll('.controle');
+
+        let itematual = 0;
+        const items = document.querySelectorAll('.item');
+        const maxItems = items.length;
+        controles.forEach( control => {
+            control.addEventListener("click", () => {
+            const btnesquerda = control.classList.contains('seta-esquerda');
+
+            if(btnesquerda) {
+                itematual -= 1; 
+
+            } else {
+
+                itematual += 1;
+
+            }
+
+            if (itematual >= maxItems) {
+
+                itematual = 0;
+            }
+
+            if(itematual < 0) {
+
+                itematual= maxItems - 1;
+            }
+
+            console.log("controle", btnesquerda, itematual, maxItems);
+            items.forEach(item => item.classList.remove("item-atual"));
+
+            items[itematual].scrollIntoView({
+                inline: "center",
+                behavior: "smooth"
+            });
+        
+            items[itematual].classList.add("item-atual");
+
+        
+            });
+
+        });
+
+
+
+    </script>
+
+</body>
+</html>

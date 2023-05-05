@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="avaliacao_filmes.css">
+    <title>\filmes</title>
+</head>
+<body>
+    <h1 id="T1">Avaliações dos Filmes</h1>
+
+    <div class="conteiner">
+
+        <button class="seta-esquerda controle" aria-label="next img"></button>
+        <button class="seta-direita controle" aria-label="next img"></button>
+        <div class="gallery-wrapper">
+            <div class="gallery">
+                <img src="img/ateoultimohomi.jpg" alt="ateoultimohomi" class="item item-atual">
+                <img src="img/coraline.jpg" alt="coraline" class="item">
+                <img src="img/jonhwick.jpg" alt="jonhwick" class="item">
+                <img src="img/ogatodebotas.jpg" alt="ogatodebotas" class="item">
+                <img src="img/The_Conjuring.jpg" alt="The_Conjuring" class="item">
+                <img src="img/Frozen2.jpg" alt="Frozen2" class="item">
+                <img src="img/1917.webp" alt="1917" class="item">
+                <img src="img/parasite.webp" alt="parasite" class="item">
+            </div>
+        </div>
+    </div>
+    
+
+    <script>
+        const controles = document.querySelectorAll('.controle');
+
+        let itematual = 0;
+        const items = document.querySelectorAll('.item');
+        const maxItems = items.length;
+        controles.forEach( control => {
+            control.addEventListener("click", () => {
+                const btnesquerda = control.classList.contains('seta-esquerda');
+
+                if(btnesquerda) {
+                    itematual -= 1; 
+
+                } else {
+
+                    itematual += 1;
+
+                }
+
+                if (itematual >= maxItems) {
+
+                    itematual = 0;
+                }
+
+                if(itematual < 0) {
+
+                    itematual= maxItems - 1;
+                }
+
+                console.log("controle", btnesquerda, itematual, maxItems);
+                items.forEach(item => item.classList.remove("item-atual"));
+
+                items[itematual].scrollIntoView({
+                    inline: "center",
+                    behavior: "smooth"
+                });
+            
+                items[itematual].classList.add("item-atual");
+
+                
+            });
+
+        });
+
+    </script>
+</body>
+</html>

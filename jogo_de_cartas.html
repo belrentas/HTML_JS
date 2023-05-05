@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo de Cartas</title>
+</head>
+<body>
+
+    <script>
+
+    const naipes = ['Paus', 'Ouros', 'Espadas', 'Copas'];
+    const valores = ['Ás', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'Valete', 'Rainha', 'Rei'];
+    
+
+
+    function shuffle(array){
+
+    let currentIndex = array.length, randomIndex;
+
+        while(currentIndex != 0) {
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex --;
+
+        [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex], array[currentIndex]];
+    }
+        return array;
+    }
+
+    while(true){
+
+        let baralho = naipes.concat(valores);
+        shuffle(baralho)
+        const numeroDaCarta = valores[Math.floor(Math.random() * valores.length)];
+        const naipeDaCarta = naipes[Math.floor(Math.random() * naipes.length)];
+        alert(`O valor da sua carta é ${numeroDaCarta} \n E seu naipe é ${naipeDaCarta}`);
+
+    }
+
+ 
+    </script>
+    
+</body>
+</html>
